@@ -1,0 +1,5 @@
+hw.c:20:6:hw_usart_irq_handler	24	static
+hw.c:49:6:hw_uart_send_byte	16	static
+hw.c:65:6:hw_rx_enable	16	static
+hw.c:81:6:hw_delay	16	static
+hw.c:86:6:hw_uart_init	8	static

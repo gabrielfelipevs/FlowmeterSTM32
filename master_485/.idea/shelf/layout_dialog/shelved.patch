@@ -1,0 +1,81 @@
+Index: fish_gui.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- fish_gui.py	(revision 32:8f51082810dc542c7312af09d1c020dc60a8e1f9)
++++ fish_gui.py	(revision 32+:8f51082810dc+)
+@@ -169,6 +169,43 @@
+         return True
+ 
+ 
++class ConfigLayoutDialog(BaseDialog):
++
++    def __init__(self, parent, data, title = 'Layout'):
++
++        self.data = data
++
++        self.col_var = ttk.Tkinter.IntVar()
++        self.row_var = ttk.Tkinter.IntVar()
++
++        self.cols = range(0,8)
++        self.rows = range(0,5)
++        BaseDialog.__init__(self, parent, title)
++
++        self.col_var.set(data['cols'])
++        self.row_var.set(data['rows'])
++
++        self.col_ctr.focus_set()
++
++    def body(self):
++        box = ttk.Frame(self)
++        ttk.Label(box,text='Linhas:',anchor=ttk.Tkinter.W).grid(row=0,column=0,stick=ttk.Tkinter.W)
++        ttk.Label(box,text='Colunas:',anchor=ttk.Tkinter.W).grid(row=1,column=0,stick=ttk.Tkinter.W)
++
++        self.row_ctr = ttk.OptionMenu(box, self.row_var, *self.rows)
++        self.row_ctr['width']=8
++        self.row_ctr.grid(row=0,column=1,stick=ttk.Tkinter.W)
++
++        self.col_ctr = ttk.OptionMenu(box, self.col_var, *self.cols)
++        self.col_ctr['width']=8
++        self.col_ctr.grid(row=1,column=1,stick=ttk.Tkinter.W)
++
++        box.pack(padx=5,pady=5)
++
++    def check_valid(self):
++        return True
++
++
+ class ConfigTankDialog(BaseDialog):
+ 
+     def __init__(self, parent, data, title = 'Configuração do Tanque'):
+@@ -531,8 +568,8 @@
+                          [self.close])
+ 
+         self.create_menu('Rádio',
+-                         ['Modo de Operação', 'Comunicação', 'Ligar Todos'],
+-                         [self.setup_mode, self.setup_radio, self.manual_on_all])
++                         ['Layout', 'Modo de Operação', 'Comunicação', 'Ligar Todos'],
++                         [self.setup_layout, self.setup_mode, self.setup_radio, self.manual_on_all])
+          
+         self.create_menu('Ajuda',
+                          ['Sobre  '],
+@@ -641,6 +678,18 @@
+             APP_CFG['STOP_TIME'] = (d.stop_time_hour_var.get(),d.stop_time_min_var.get())
+             APP_CFG.sync()
+             dispatcher.send(signal='MODE-UPDATE')
++
++    def setup_layout(self):
++        # yes, it is wrong...
++        data = {'rows': APP_CFG['COLS'], 'cols':APP_CFG['ROWS']}
++        d = ConfigLayoutDialog(self,data)
++        d.do_modal()
++        if d.result:
++            APP_CFG['ROWS'] = d.col_var.get()
++            APP_CFG['COLS'] = d.row_var.get()
++            APP_CFG.sync()
++            tkMessageBox.showwarning("Layout da Tela",
++                                     "Reinicie a aplicação para usar\nos novos parâmetros")
+ 
+     def setup_radio(self):
+         data = {'baud_rate': APP_CFG['BAUD_RATE'],

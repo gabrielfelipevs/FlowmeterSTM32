@@ -1,0 +1,17 @@
+app.c:54:6:app_add_received_byte	16	static
+app.c:85:13:app_check_frame	24	static
+app.c:108:13:app_send_frame	24	static
+app.c:133:6:app_decode_and_answer_version	24	static
+app.c:150:6:app_decode_and_answer_ident	40	static
+app.c:183:6:app_decode_and_answer_desc	24	static
+app.c:223:6:app_decode_and_answer_read	24	static
+app.c:261:6:app_decode_and_answer_write	16	static
+app.c:285:6:app_answer_frame	16	static
+app.c:328:6:HAL_TIM_PeriodElapsedCallback	32	static
+app.c:363:6:app_set_new_frame_state	16	static
+app.c:368:6:app_get_new_frame_state	4	static
+app.c:373:6:app_init	8	static
+app.c:391:13:write_lcd	8	static
+app.c:411:6:app_systick_cbk	8	static
+app.c:425:6:HAL_GPIO_EXTI_Callback	16	static
+app.c:470:6:app_loop	8	static
